@@ -1,0 +1,285 @@
+namespace offsets
+{
+        constexpr auto Il2CppGetHandle = 0xC191CA0;
+        constexpr auto BaseNetworkable_TypeInfo = 0xBE7FB88;
+        constexpr auto MainCamera_TypeInfo = 0xBEDD6A8;
+        constexpr auto BasePlayer_TypeInfo = 0xBF26B08;
+        constexpr auto TOD_Sky_TypeInfo = 0xBEF9CB0;
+        constexpr auto ConvarAdmin_TypeInfo = 0xBEFE9D8;
+        constexpr auto Input_TypeInfo = 0xBEA5C88;
+        constexpr auto ConvarGraphics_TypeInfo = 0xBE933A8;
+ 
+        namespace BaseNetworkable
+        {
+                constexpr auto ClientEntities = 0x30;
+ 
+                namespace EntityRealm
+                {
+                        constexpr auto EntityList = 0x10;
+                }
+        }
+ 
+        namespace ListDictionary
+        {
+                constexpr auto BufferList = 0x18;
+        }
+ 
+        namespace BufferList
+        {
+                constexpr auto List = 0x10;
+                constexpr auto Count = 0x18;
+        }
+ 
+        namespace MainCamera
+        {
+                constexpr auto Camera = 0x8;
+        }
+ 
+        namespace TOD_Sky
+        {
+                constexpr auto Instances = 0x28;
+        }
+ 
+        namespace BasePlayer
+        {
+                constexpr auto ClActiveItem = 0x460;
+                constexpr auto PlayerEyes = 0x2A8;
+                constexpr auto PlayerInventory = 0x478;
+                constexpr auto CurrentTeam = 0x430;
+                constexpr auto BaseMovement = 0x598;
+                constexpr auto PlayerModel = 0x288;
+                constexpr auto PlayerFlags = 0x558;
+                constexpr auto DisplayName = 0x3F8;
+                constexpr auto PlayerInput = 0x5C0;
+        }
+ 
+        namespace PlayerInventory
+        {
+                constexpr auto Belt = 0x28;
+                constexpr auto Wear = 0x58;
+        }
+ 
+        namespace ItemContainer
+        {
+                constexpr auto ItemList = 0x40;
+        }
+ 
+        namespace Item
+        {
+                constexpr auto ItemDefinition = 0x70;
+                constexpr auto HeldEntity = 0x88;
+                constexpr auto ItemId = 0x98;
+                constexpr auto Health = 0xC8;
+                constexpr auto MaxHealth = 0xD0;
+                constexpr auto Amount = 0xCC;
+        }
+ 
+        namespace PlayerModel
+        {
+                constexpr auto SkinnedMultiMesh = 0x298;
+        }
+ 
+        namespace SkinnedMultiMesh
+        {
+                constexpr auto RendererList = 0x58;
+        }
+ 
+        namespace BaseProjectile
+        {
+                constexpr auto RecoilProperties = 0x340;
+                constexpr auto PrimaryMagazine = 0x318;
+        }
+ 
+        namespace HeldEntity
+        {
+                constexpr auto ViewModel = 0x218;
+        }
+ 
+        namespace Input
+        {
+                constexpr auto Buttons = 0xD0;
+ 
+                namespace Button
+                {
+                        constexpr auto CurrentValue = 0x39;
+                        constexpr auto Name = 0x18;
+                        constexpr auto KeyCode = 0x24;
+                        constexpr auto Binds = 0x30;
+                }
+ 
+        }
+ 
+        namespace Convar
+        {
+                namespace Graphics
+                {
+                        constexpr auto Fov = 0x34C;
+                }
+ 
+                namespace Admin
+                {
+                        constexpr auto AdminTime = 0x9C;
+                }
+ 
+        }
+ 
+}
+ 
+namespace Encrypt
+{
+        inline uint64_t AdminTime(float value)
+        {
+                uint32_t eax, ecx;
+                eax = *(uint32_t*)&value;
+                eax = eax + 0x1E33A871;
+                ecx = eax;
+                eax = eax << 0x1F;
+                ecx = ecx >> 0x1;
+                ecx = ecx | eax;
+                ecx = ecx - 0x6B7ACC8A;
+                eax = ecx;
+                ecx = ecx << 0x13;
+                eax = eax >> 0xD;
+                eax = eax | ecx;
+                return static_cast<uint64_t>(eax);
+        }
+ 
+        inline uint64_t Fov(float value)
+        {
+                uint32_t eax, ecx;
+                eax = *(uint32_t*)&value;
+                eax = eax + 0x1E33A871;
+                ecx = eax;
+                eax = eax << 0x1F;
+                ecx = ecx >> 0x1;
+                ecx = ecx | eax;
+                ecx = ecx - 0x6B7ACC8A;
+                eax = ecx;
+                ecx = ecx << 0x13;
+                eax = eax >> 0xD;
+                eax = eax | ecx;
+                return static_cast<uint64_t>(eax);
+        }
+ 
+}
+ 
+namespace Decrypt
+{
+ 
+        inline uint64_t ClientEntities(uint64_t address)
+        {
+                uint64_t rax = mem.Read<uint64_t>(address + 0x18);
+                uint64_t* rdx = &rax;
+                uint32_t r8d = 0x2;
+                uint32_t eax, ecx, edx;
+ 
+                do {
+                        eax = *(uint32_t*)(rdx);
+                        rdx = (uint64_t*)((uint8_t*)rdx + 0x4);
+                        eax = eax + 0x84B02EEE;
+                        ecx = eax;
+                        eax = eax << 0xD;
+                        ecx = ecx >> 0x13;
+                        ecx = ecx | eax;
+                        ecx = ecx - 0x2F1224FF;
+                        *((uint32_t*)rdx - 1) = ecx;
+                        --r8d;
+                } while (r8d);
+                return Il2cppGetHandle(rax);
+        }
+ 
+        inline uint64_t EntityList(uint64_t address)
+        {
+                uint64_t rax = mem.Read<uint64_t>(address + 0x18);
+                uint64_t* rdx = &rax;
+                uint32_t r8d = 0x2;
+                uint32_t eax, ecx, edx;
+ 
+                do {
+                        ecx = *(uint32_t*)(rdx);
+                        eax = *(uint32_t*)(rdx);
+                        rdx = (uint64_t*)((uint8_t*)rdx + 0x4);
+                        ecx = ecx >> 0xA;
+                        eax = eax << 0x16;
+                        ecx = ecx | eax;
+                        ecx = ecx - 0x49064304;
+                        ecx = ecx ^ 0xFA11D865;
+                        *((uint32_t*)rdx - 1) = ecx;
+                        --r8d;
+                } while (r8d);
+                return Il2cppGetHandle(rax);
+        }
+ 
+        inline uint64_t PlayerInventory(uint64_t address)
+        {
+                uint64_t rax = mem.Read<uint64_t>(address + 0x18);
+                uint64_t* rdx = &rax;
+                uint32_t r8d = 0x2;
+                uint32_t eax, ecx, edx;
+ 
+                do {
+                        eax = *(uint32_t*)(rdx);
+                        ecx = *(uint32_t*)(rdx);
+                        rdx = (uint64_t*)((uint8_t*)rdx + 0x4);
+                        eax = eax << 0x10;
+                        ecx = ecx | eax;
+                        ecx = ecx + 0xD406ABD4;
+                        eax = ecx;
+                        ecx = ecx << 0x14;
+                        eax = eax >> 0xC;
+                        eax = eax | ecx;
+                        *((uint32_t*)rdx - 1) = eax;
+                        --r8d;
+                } while (r8d);
+                return Il2cppGetHandle(rax);
+        }
+ 
+        inline uint64_t PlayerEyes(uint64_t address)
+        {
+                uint64_t rax = mem.Read<uint64_t>(address + 0x18);
+                uint64_t* rdx = &rax;
+                uint32_t r8d = 0x2;
+                uint32_t eax, ecx, edx;
+ 
+                do {
+                        eax = *(uint32_t*)(rdx);
+                        rdx = (uint64_t*)((uint8_t*)rdx + 0x4);
+                        eax = eax ^ 0x5C4C7BF3;
+                        ecx = eax;
+                        eax = eax << 0x10;
+                        ecx = ecx >> 0x10;
+                        ecx = ecx | eax;
+                        ecx = ecx - 0x3E3A4010;
+                        *((uint32_t*)rdx - 1) = ecx;
+                        --r8d;
+                } while (r8d);
+                return Il2cppGetHandle(rax);
+        }
+ 
+        inline uint64_t ClActiveItem(uint64_t address)
+        {
+                uint64_t rsp = address;
+                uint64_t* rdx = &rsp;
+                uint32_t r8d = 0x2;
+                uint32_t eax, ecx, edx;
+ 
+ 
+                do {
+                        ecx = *(uint32_t*)(rdx);
+                        eax = *(uint32_t*)(rdx);
+                        rdx = (uint64_t*)((uint8_t*)rdx + 0x4);
+                        eax = eax << 0x18;
+                        ecx = ecx >> 0x8;
+                        ecx = ecx | eax;
+                        ecx = ecx + 0xD72E3265;
+                        eax = ecx;
+                        ecx = ecx << 0x1F;
+                        eax = eax >> 0x1;
+                        eax = eax | ecx;
+                        eax = eax - 0x9830B30;
+                        *((uint32_t*)rdx - 1) = eax;
+                        --r8d;
+                } while (r8d);
+                return rsp;
+        }
+}

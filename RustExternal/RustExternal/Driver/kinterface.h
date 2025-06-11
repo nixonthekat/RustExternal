@@ -1,8 +1,24 @@
 #pragma once
+
+#ifndef CTL_CODE
+#define CTL_CODE(DeviceType, Function, Method, Access) \
+    (((DeviceType) << 16) | ((Access) << 14) | ((Function) << 2) | (Method))
+#endif
+
+#ifndef FILE_DEVICE_UNKNOWN
+#define FILE_DEVICE_UNKNOWN 0x00000022
+#endif
+
+#ifndef METHOD_BUFFERED
+#define METHOD_BUFFERED 0
+#endif
+
+#ifndef FILE_ANY_ACCESS
+#define FILE_ANY_ACCESS 0
+#endif
+
 class kinterface_t {
 private:
-	__int64( __fastcall* fnAddr )( void*, void*, void* ) = nullptr;
-
 	typedef enum _request_codes
 	{
 		request_drv = 0xFF << 1,
@@ -54,6 +70,7 @@ public:
 	uintptr_t ProcessBase;
 	uintptr_t ModuleBase;
 
+	~kinterface_t();
 	int PID( const char* name );
 	int GetProcessThreadNumByID( DWORD dwPID );
 	bool Initialize( );
@@ -64,6 +81,14 @@ public:
 
 	bool ReadPhysMemory( const int pid, const std::uintptr_t address, void* buffer, const std::size_t size, bool mmcopy = false, PDWORD_PTR num_bytes = 0 );
 	bool WritePhysMemory( const int pid, const std::uintptr_t address, void* buffer, const std::size_t size );
+	
+	// Hybrid driver support
+	bool SendRTCore64CMD(void* data, request_codes code);
+	bool SendKernelDriverCMD(void* data, request_codes code);
+	bool UserlandFallback(void* data, request_codes code);
+	
+	// RTCore64 direct memory access
+	uintptr_t GetModuleBaseViaRTCore64(int PID, LPCWSTR ModName);
 };
 inline kinterface_t* kinterface = new kinterface_t( );
 

@@ -6,6 +6,7 @@
 #include <sstream>
 #include <TlHelp32.h>
 #include <thread>
+#include <chrono>
 #include <vector>
 #include <array>
 #include <math.h>
@@ -15,10 +16,15 @@
 #include <dwmapi.h>
 #include <atlstr.h>
 #include <d3d11.h>
-#include <d3dx11.h>
+#include <d3dcompiler.h>
+#include <psapi.h>
+#include <string>
+#include <algorithm>
+#include <cstring>
 
 #pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "d3dx11.lib")
+#pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "psapi.lib")
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
@@ -36,6 +42,9 @@ inline ImFont* m_pFont;
 #include "Overlay/Overlay.h"
 #include "Overlay/Render/CRender.h"
 
+#include "Engine/Game/Offsets.h"
+#include "Engine/Game/DynamicOffsets.h"
+#include "Engine/Game/RustDecryption.h"
 #include "Engine/CBasePlayer.h"
 #include "Engine/CBaseNetworkable.h"
 #include "Engine/CEntity.h"
